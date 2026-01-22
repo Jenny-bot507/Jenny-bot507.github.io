@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的GA4数据分析网站 | Web Analytics项目</title>
+    <meta name="description" content="用于收集和分析用户行为数据的GA4测试网站">
+    
+    <!-- ========== GA4代码将粘贴在这里 ========== -->
+    <!-- 稍后创建GA4账号后，把代码粘贴到下面 -->
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .course-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        h2 {
+            color: #4f46e5;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            color: #7c3aed;
+            margin: 15px 0 10px;
+            font-size: 1.4em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4f46e5;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-3px);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 5px;
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8fafc;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .ga4-code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 GA4数据分析实验平台</h1>
+            <p class="subtitle">Web Analytics课程 | Google Analytics 4实战项目</p>
+            <div class="course-badge">Week 21: Introduction to Web Analytics</div>
+        </header>
+        
+        <div class="content">
+            <section class="section">
+                <h2>📊 项目概述</h2>
+                <p>本网站专门用于 <strong>Web Analytics课程</strong> 的实践项目，通过集成Google Analytics 4（GA4）追踪代码，收集和分析用户行为数据。</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">追踪页面</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">事件类型</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">真实数据</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">GA4</div>
+                        <div class="stat-label">分析平台</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2>🎯 实验目标</h2>
+                <ul>
+                    <li>✅ 成功集成GA4追踪代码到网站</li>
+                    <li>✅ 收集至少7天的用户行为数据</li>
+                    <li>✅ 分析页面浏览量、用户来源、设备类型</li>
+                    <li>✅ 追踪自定义事件（按钮点击、表单提交等）</li>
+                    <li>✅ 生成数据分析报告用于课程评估</li>
+                </ul>
+            </section>
+            
+            <section class="section">
+                <h2>🔍 数据收集点</h2>
+                <p>点击以下按钮和链接，为GA4生成测试数据：</p>
+                
+                <div class="nav-buttons">
+                    <a href="about.html" class="btn btn-primary">
+                        📄 关于页面
+                    </a>
+                    <a href="contact.html" class="btn btn-primary">
+                        📞 联系页面
+                    </a>
+                    <button class="btn btn-secondary" onclick="trackEvent('main_button_click')">
+                        🖱️ 点击按钮（测试事件）
+                    </button>
+                    <button class="btn btn-success" onclick="simulateDownload()">
+                        📥 模拟文件下载
+                    </button>
+                </div>
+                
+                <h3>追踪的事件包括：</h3>
+                <ol>
+                    <li><strong>page_view</strong> - 页面浏览</li>
+                    <li><strong>button_click</strong> - 按钮点击</li>
+                    <li><strong>file_download</strong> - 文件下载</li>
+                    <li><strong>form_submit</strong> - 表单提交（联系页面）</li>
+                    <li><strong>scroll_depth</strong> - 页面滚动深度</li>
+                </ol>
+            </section>
+            
+            <section class="section">
+                <h2>🛠️ 技术实现</h2>
+                <p>GA4追踪代码将添加到每个页面的 <code>&lt;head&gt;</code> 部分：</p>
+                
+                <div class="ga4-code-block">
+&lt;!-- Google tag (gtag.js) --&gt;
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+&lt;/script&gt;
+                </div>
+                
+                <p><em>测量ID <code>G-XXXXXXXXXX</code> 将在创建GA4属性后获得并替换。</em></p>
+            </section>
+            
+            <section class="section">
+                <h2>📈 预期分析内容</h2>
+                <ul>
+                    <li><strong>用户获取</strong>：流量来源分析</li>
+                    <li><strong>用户互动</strong>：页面停留时间、跳出率</li>
+                    <li><strong>转化事件</strong>：按钮点击转化率</li>
+                    <li><strong>设备分析</strong>：桌面 vs 移动端使用情况</li>
+                    <li><strong>用户流</strong>：页面间导航路径</li>
+                </ul>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2025 Web Analytics课程项目 | 学生：Jenny | 网站：<strong>https://jenny-bot507.github.io</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #94a3b8;">
+                此网站仅用于教育目的，所有数据收集符合Google Analytics服务条款
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 当前日期
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateElement = document.createElement('p');
+            dateElement.style.marginTop = '10px';
+            dateElement.style.fontSize = '0.9em';
+            dateElement.style.color = '#94a3b8';
+            dateElement.innerHTML = '最后更新：' + new Date().toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            document.querySelector('footer').appendChild(dateElement);
+        });
+        
+        // 事件追踪函数（GA4代码添加后会扩展）
+        function trackEvent(eventName) {
+            console.log('🔔 GA4事件触发:', eventName);
+            alert('✅ 事件 "' + eventName + '" 已记录！\n\n在GA4控制台中查看此事件。');
+            
+            // 这里稍后添加GA4事件推送
+            // gtag('event', eventName, {
+            //     'event_category': 'engagement',
+            //     'event_label': 'test_event'
+            // });
+        }
+        
+        function simulateDownload() {
+            console.log('📥 下载事件模拟');
+            alert('📊 模拟下载完成！此事件将发送到GA4。\n\n文件名：sample_data.pdf');
+            
+            // 这里稍后添加GA4事件推送
+            // gtag('event', 'file_download', {
+            //     'file_name': 'sample_data.pdf',
+            //     'file_type': 'pdf'
+            // });
+        }
+        
+        // 页面加载日志
+        window.onload = function() {
+            console.log('🚀 GA4测试网站已加载 | URL:', window.location.href);
+            console.log('📝 准备收集用户行为数据...');
+        };
+    </script>
+</body>
+</html>
