@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新年快乐 | 祝福与心愿收集</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 烟花容器 -->
+    <div id="fireworks-container"></div>
+    
+    <!-- 雪花容器 -->
+    <div id="snowflakes-container"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-gift"></i> 新年快乐 <i class="fas fa-gift"></i></h1>
+            <p class="subtitle">送上最真挚的祝福，许下最美好的心愿</p>
+            <div class="year-display" id="year-display">2024</div>
+        </header>
+        
+        <div class="counter">
+            <div class="counter-item">
+                <div class="counter-value" id="wish-count">0</div>
+                <div class="counter-label">心愿总数</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-value" id="visitor-count">0</div>
+                <div class="counter-label">今日访客</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-value" id="lantern-clicks">0</div>
+                <div class="counter-label">灯笼点击</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="card wish-card">
+                <h2><i class="fas fa-star"></i> 许下您的新年心愿</h2>
+                <form class="wish-form" id="wish-form">
+                    <textarea id="wish-input" placeholder="在这里写下您的新年愿望、祝福或目标...（最多200字）" maxlength="200"></textarea>
+                    <div class="divider"></div>
+                    <button type="submit" id="submit-wish">
+                        <i class="fas fa-paper-plane"></i> 发送心愿
+                    </button>
+                </form>
+                
+                <div class="wish-list" id="wish-list">
+                    <!-- 心愿列表将通过JavaScript动态添加 -->
+                    <div class="wish-item">
+                        <p class="wish-text">新年快乐，万事如意，天天开心！</p>
+                        <p class="wish-time" id="current-time">正在获取时间...</p>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="wish-item">
+                        <p class="wish-text">愿新的一年，家人健康平安，万事如意！</p>
+                        <p class="wish-time">2024-01-01 10:30</p>
+                    </div>
+                    <div class="wish-item">
+                        <p class="wish-text">希望新年能找到理想的工作，事业有成！</p>
+                        <p class="wish-time">2024-01-01 09:15</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-gamepad"></i> 互动祝福</h2>
+                <div class="interactive-area">
+                    <div class="lantern" id="lantern" title="点击灯笼点亮祝福">
+                        🏮
+                    </div>
+                    <p class="lantern-text">点击灯笼点亮祝福，传递好运！</p>
+                    
+                    <button class="fireworks-btn" id="fireworks-btn">
+                        <i class="fas fa-fire"></i> 燃放新年烟花
+                    </button>
+                    <p class="fireworks-text">点击按钮燃放烟花，庆祝新年！</p>
+                    
+                    <div class="divider"></div>
+                    
+                    <h3 class="blessing-title"><i class="fas fa-bullhorn"></i> 新年祝福语</h3>
+                    <div class="blessing-list">
+                        <p>🎉 恭贺新禧，万事如意！</p>
+                        <p>🧧 财源广进，步步高升！</p>
+                        <p>🏮 阖家欢乐，幸福安康！</p>
+                        <p>🎁 新年新气象，梦想成真！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© <span id="current-year">2024</span> 新年快乐祝福网页 | 本页面使用 Google Analytics 4 进行访问分析</p>
+            <p>设计制作学生：Jenny | 祝您新年快乐，心想事成！</p>
+        </footer>
+    </div>
+
+    <!-- Google Analytics 4 代码 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        //  设置自己的 GA4 测量 ID
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'D240395915');
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html> 
