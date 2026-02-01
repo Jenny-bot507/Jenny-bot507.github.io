@@ -65,11 +65,18 @@ wishForm.addEventListener('submit', function(e) {
     const now = new Date();
     const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
     
-    // 创建心愿元素
-    addWishToDOM(wishText, timeString);
+    // 创建新心愿对象
+    const newWish = {
+        text: wishText,
+        time: timeString,
+        from: '匿名朋友'
+    };
+    
+    // 添加到共享数组
+    sharedWishes.push(newWish);
     
     // 保存到本地存储
-    saveWish(wishText, now);
+    saveSharedWishesToLocal();
     
     // 更新计数器
     wishCounter++;
@@ -80,7 +87,8 @@ wishForm.addEventListener('submit', function(e) {
     if (typeof gtag !== 'undefined') {
         gtag('event', 'submit_wish', {
             'event_category': 'engagement',
-            'event_label': 'wish_submission'
+            'event_label': 'wish_submission',
+            'value': wishText.length
         });
     }
     
@@ -88,7 +96,7 @@ wishForm.addEventListener('submit', function(e) {
     wishInput.value = '';
     
     // 显示成功消息
-    showMessage('心愿已发送！祝您愿望成真！', 'success');
+    showMessage('心愿已发送到公共祝福墙！', 'success');
     
     // 触发烟花效果
     createFireworks(3);
@@ -457,4 +465,5 @@ window.addEventListener('resize', function() {
     
     // 重新创建雪花
     createSnowflakes();
+
 });
