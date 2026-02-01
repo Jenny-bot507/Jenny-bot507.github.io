@@ -55,6 +55,16 @@ h1 {
     transform: rotate(-3deg);
 }
 
+.share-notice {
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border-left: 3px solid #FFD700;
+}
+
 .main-content {
     display: flex;
     flex-wrap: wrap;
@@ -81,7 +91,7 @@ h1 {
 h2 {
     color: #FFD700;
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(255, 215, 0, 0.5);
     font-family: 'Ma Shan Zheng', cursive;
@@ -99,6 +109,7 @@ h2 {
     font-family: 'Noto Sans SC', sans-serif;
     color: #333;
     line-height: 1.6;
+    margin-bottom: 15px;
 }
 
 .wish-form textarea:focus {
@@ -120,7 +131,7 @@ h2 {
     display: block;
     margin: 20px auto 0;
     width: 100%;
-    max-width: 200px;
+    max-width: 250px;
 }
 
 .wish-form button:hover {
@@ -173,12 +184,12 @@ h2 {
 .wish-text {
     color: #FFF;
     font-size: 1.1rem;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     line-height: 1.6;
 }
 
 .wish-time {
-    color: #FFD700;
+    color: #FFA500;
     font-size: 0.9rem;
     text-align: right;
     font-weight: bold;
@@ -346,6 +357,10 @@ footer {
 
 .message.success {
     background-color: rgba(46, 125, 50, 0.9);
+}
+
+.message.error {
+    background-color: rgba(244, 67, 54, 0.9);
 }
 
 .message.lantern {
