@@ -1,3 +1,63 @@
+// ==================== 共享心愿系统 ====================
+
+// 初始化共享心愿数组（所有人可见）
+const sharedWishes = [
+    {
+        text: "🎉 欢迎来到新年祝福墙！在这里写下您的心愿，所有人都能看到哦！",
+        time: "系统",
+        from: "欢迎消息"
+    },
+    {
+        text: "💌 写下第一个心愿吧，您的祝福将传递给每个人！",
+        time: "系统", 
+        from: "提示"
+    }
+];
+
+// 保存到本地存储
+function saveSharedWishesToLocal() {
+    localStorage.setItem('sharedNewYearWishes', JSON.stringify(sharedWishes));
+}
+
+// 从本地存储加载
+function loadSharedWishesFromLocal() {
+    const saved = localStorage.getItem('sharedNewYearWishes');
+    if (saved) {
+        const loadedWishes = JSON.parse(saved);
+        // 清空当前数组（保留前两个系统消息）
+        while (sharedWishes.length > 2) {
+            sharedWishes.pop();
+        }
+        // 添加加载的心愿
+        loadedWishes.forEach(wish => {
+            sharedWishes.push(wish);
+        });
+    }
+}
+
+// 显示所有共享心愿
+function displayAllWishes() {
+    const wishList = document.getElementById('wish-list');
+    
+    // 保留前两个系统消息
+    while (wishList.children.length > 2) {
+        wishList.removeChild(wishList.lastChild);
+    }
+    
+    // 添加共享心愿（跳过前两个系统消息）
+    sharedWishes.slice(2).forEach(wish => {
+        const wishItem = document.createElement('div');
+        wishItem.className = 'wish-item';
+        wishItem.innerHTML = `
+            <p class="wish-text">${escapeHtml(wish.text)}</p>
+            <p class="wish-time">${wish.time} • 来自：${wish.from}</p>
+        `;
+        wishList.appendChild(wishItem);
+    });
+}
+
+// ==================== 初始化 ====================
+
 // 获取DOM元素
 const yearDisplay = document.getElementById('year-display');
 const currentYearSpan = document.getElementById('current-year');
@@ -11,30 +71,14 @@ const lantern = document.getElementById('lantern');
 const fireworksBtn = document.getElementById('fireworks-btn');
 const fireworksContainer = document.getElementById('fireworks-container');
 const snowflakesContainer = document.getElementById('snowflakes-container');
-const currentTimeElement = document.getElementById('current-time');
 
 // 设置当前年份
 const currentYear = new Date().getFullYear();
 yearDisplay.textContent = currentYear;
 currentYearSpan.textContent = currentYear;
 
-// 更新实时时间
-function updateRealTime() {
-    const now = new Date();
-    const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-    
-    if (currentTimeElement) {
-        currentTimeElement.textContent = timeString;
-    }
-}
-
-// 每秒更新一次时间
-setInterval(updateRealTime, 1000);
-// 初始化时间
-updateRealTime();
-
 // 初始化计数器
-let wishCounter = localStorage.getItem('wishCounter') ? parseInt(localStorage.getItem('wishCounter')) : 3;
+let wishCounter = localStorage.getItem('wishCounter') ? parseInt(localStorage.getItem('wishCounter')) : 0;
 let visitorCounter = localStorage.getItem('visitorCounter') ? parseInt(localStorage.getItem('visitorCounter')) : 0;
 let lanternClickCounter = localStorage.getItem('lanternClickCounter') ? parseInt(localStorage.getItem('lanternClickCounter')) : 0;
 
@@ -48,16 +92,14 @@ visitorCounter++;
 localStorage.setItem('visitorCounter', visitorCounter);
 visitorCount.textContent = visitorCounter;
 
-// 加载已有的心愿
-loadWishes();
+// ==================== 表单提交事件 ====================
 
-// 表单提交事件
 wishForm.addEventListener('submit', function(e) {
     e.preventDefault();
     const wishText = wishInput.value.trim();
-    
+
     if (wishText === '') {
-        alert('请输入您的心愿！');
+        showMessage('请输入您的心愿！', 'error');
         return;
     }
     
@@ -77,6 +119,9 @@ wishForm.addEventListener('submit', function(e) {
     
     // 保存到本地存储
     saveSharedWishesToLocal();
+    
+    // 立即显示在页面上
+    displayAllWishes();
     
     // 更新计数器
     wishCounter++;
@@ -102,7 +147,8 @@ wishForm.addEventListener('submit', function(e) {
     createFireworks(3);
 });
 
-// 灯笼点击事件
+// ==================== 灯笼点击事件 ====================
+
 lantern.addEventListener('click', function() {
     // 更新点击计数器
     lanternClickCounter++;
@@ -134,7 +180,8 @@ lantern.addEventListener('click', function() {
     }, 500);
 });
 
-// 烟花按钮点击事件
+// ==================== 烟花按钮点击事件 ====================
+
 fireworksBtn.addEventListener('click', function() {
     // 发送GA4事件
     if (typeof gtag !== 'undefined') {
@@ -151,70 +198,8 @@ fireworksBtn.addEventListener('click', function() {
     showMessage('烟花绽放！新年快乐！', 'fireworks');
 });
 
-// 添加心愿到DOM
-function addWishToDOM(wishText, timeString) {
-    const wishItem = document.createElement('div');
-    wishItem.className = 'wish-item';
-    
-    wishItem.innerHTML = `
-        <p class="wish-text">${escapeHtml(wishText)}</p>
-        <p class="wish-time">${timeString}</p>
-    `;
-    
-    // 添加到列表顶部（在第一个示例心愿之后）
-    const firstWish = wishList.children[0];
-    const divider = wishList.children[1];
-    wishList.insertBefore(wishItem, divider.nextSibling);
-}
+// ==================== 烟花效果函数 ====================
 
-// 保存心愿到本地存储
-function saveWish(wishText, date) {
-    const wishes = JSON.parse(localStorage.getItem('newYearWishes')) || [];
-    const wish = {
-        text: wishText,
-        time: date.toISOString()
-    };
-    
-    wishes.unshift(wish);
-    
-    // 只保留最新的50个心愿
-    if (wishes.length > 50) {
-        wishes.pop();
-    }
-    
-    localStorage.setItem('newYearWishes', JSON.stringify(wishes));
-}
-
-// 从本地存储加载心愿
-function loadWishes() {
-    const wishes = JSON.parse(localStorage.getItem('newYearWishes')) || [];
-    
-    // 清空现有列表（保留前三个示例心愿）
-    while (wishList.children.length > 3) {
-        wishList.removeChild(wishList.lastChild);
-    }
-    
-    // 添加加载的心愿
-    wishes.forEach(wish => {
-        const date = new Date(wish.time);
-        const timeString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-        
-        const wishItem = document.createElement('div');
-        wishItem.className = 'wish-item';
-        
-        wishItem.innerHTML = `
-            <p class="wish-text">${escapeHtml(wish.text)}</p>
-            <p class="wish-time">${timeString}</p>
-        `;
-        
-        // 添加到列表顶部（在第一个示例心愿之后）
-        const firstWish = wishList.children[0];
-        const divider = wishList.children[1];
-        wishList.insertBefore(wishItem, divider.nextSibling);
-    });
-}
-
-// 创建烟花效果
 function createFireworks(count) {
     for (let i = 0; i < count; i++) {
         setTimeout(() => {
@@ -298,7 +283,8 @@ function createParticle(x, y, color) {
     }, 30);
 }
 
-// 创建灯笼火花效果
+// ==================== 灯笼火花效果 ====================
+
 function createLanternSparkles() {
     const lanternRect = lantern.getBoundingClientRect();
     const centerX = lanternRect.left + lanternRect.width / 2;
@@ -356,7 +342,8 @@ function createSparkle(x, y) {
     }, 30);
 }
 
-// 创建雪花效果
+// ==================== 雪花效果 ====================
+
 function createSnowflakes() {
     for (let i = 0; i < 50; i++) {
         setTimeout(() => {
@@ -409,7 +396,8 @@ function createSnowflake() {
     }, 30);
 }
 
-// 显示消息
+// ==================== 消息显示函数 ====================
+
 function showMessage(text, type) {
     // 移除现有消息
     const existingMessage = document.querySelector('.message');
@@ -421,10 +409,8 @@ function showMessage(text, type) {
     message.className = `message ${type}`;
     message.textContent = text;
     
-    // 添加到页面
     document.body.appendChild(message);
     
-    // 3秒后移除
     setTimeout(() => {
         if (message.parentNode) {
             message.parentNode.removeChild(message);
@@ -432,15 +418,21 @@ function showMessage(text, type) {
     }, 3000);
 }
 
-// 转义HTML，防止XSS攻击
+// ==================== 转义HTML，防止XSS攻击 ====================
+
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-// 页面加载完成后初始化
+// ==================== 页面加载完成后初始化 ====================
+
 window.addEventListener('load', function() {
+    // 加载共享心愿
+    loadSharedWishesFromLocal();
+    displayAllWishes();
+    
     // 创建雪花效果
     createSnowflakes();
     
@@ -453,7 +445,8 @@ window.addEventListener('load', function() {
     }
 });
 
-// 窗口大小变化时重新调整雪花
+// ==================== 窗口大小变化时重新调整雪花 ====================
+
 window.addEventListener('resize', function() {
     // 移除所有雪花
     const snowflakes = document.querySelectorAll('.snowflake');
@@ -465,5 +458,4 @@ window.addEventListener('resize', function() {
     
     // 重新创建雪花
     createSnowflakes();
-
 });
